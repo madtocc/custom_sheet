@@ -65,6 +65,8 @@ In order to show the modal bottom sheet you'll have to call the method according
 
 The default value of these parameters may be different for some methods, for instance when displaying a loading I want to make the bottom sheet undissmissable, block the back button and disable the drag. For the other methods it will be the opposite, but you can change it as you wish.
 
+---
+
 #### Display a Loading
 
 ```dart
@@ -76,6 +78,7 @@ void showLoading({
 });
 
 ```
+
 
 ```dart
 // ----------------------------------------------------------------------------
@@ -105,6 +108,10 @@ CustomSheet(context).showLoading(loadingMsg: "swipe-down to dismiss",enableDrag:
 |---|---|---|
 |<img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/1.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/2.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/3.gif?raw=true">|
 
+
+---
+
+
 #### Title and body
 ```dart
 Future<void> showTitleBody({
@@ -115,7 +122,9 @@ Future<void> showTitleBody({
     bool enableDrag = true,
     bool bodySecondColorEnabled = false
 });
-          ```
+```
+
+
 ```dart
 // ----------------------------------------------------------------------------
 // #4
@@ -153,11 +162,17 @@ CustomSheet(context,sheetColor: Colors.black,secondColor: Colors.white,textColor
 ```
 
 
-|  #4 |  #5 |  #6 |  #7 |
+|  #4  |  #5  |  #6  |  #7  |
 |---|---|---|---|
 |<img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/4.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/5.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/6.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/7.gif?raw=true">|
 
+
+---
+
+
 #### Title, body and buttons
+
+
 ```dart
 Future<T2> showTitleBodyButtons<T1,T2>(
     {String title,
@@ -170,6 +185,7 @@ Future<T2> showTitleBodyButtons<T1,T2>(
     bool bodySecondColorEnabled = false
 });
 ```
+
 
 ```dart
 // ----------------------------------------------------------------------------
@@ -235,11 +251,19 @@ CustomSheet(context,sheetColor: Colors.black).showTitleBodyButtons(
 .then((value) =>scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("$value",style:TextStyle(fontSize: 150)),duration: Duration(milliseconds: 750))));
 
 ```
+
+
 |  #8 |  #9 |  #10 |
-|---|---|---|
+|-----|-----|------|
 |<img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/8.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/9.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/10.gif?raw=true">|
 
+
+---
+
+
 #### Custom
+
+
 ```dart
 Future<T2> showBS<T1,T2>({
     Widget top,
@@ -251,7 +275,10 @@ Future<T2> showBS<T1,T2>({
     double buttonHeight=65
 });
 ```
+
+
 You can also customize the whole bottom sheet as you wish...
+
 
 ```dart
 CustomSheet(context).showBS(
@@ -266,6 +293,8 @@ CustomSheet(context).showBS(
     ]
 );
 ```
+
+
 |  #11 | 
-|---|---|
+|  --  |
 <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/11.gif?raw=true">
