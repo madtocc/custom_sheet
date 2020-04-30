@@ -18,19 +18,10 @@ dependencies:
   custom_sheet:
 ```
 
-**Attention!** 
-
-The Flutter stable branch didn't implement the drag option on the modal bottom sheet, so I had to add this capability. Hence, **add this if your using the stable flutter channel**. 
-
-```
-dependencies:
-  custom_sheet:
-    git:
-      url: git://github.com/madtocc/custom_sheet.git
-      ref: stable
-```
 
 Import it:
+
+
 ```dart
 import 'package:custom_sheet/custom_sheet.dart';
 ```
