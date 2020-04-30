@@ -1,5 +1,5 @@
 name: custom_sheet
-description: Display a custom modal bottom sheet.
+description: Flutter package to display smart colored modal bottom sheets quickly.
 version: 0.1.0
 homepage: https://github.com/madtocc/custom_sheet
 

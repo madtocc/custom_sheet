@@ -2,7 +2,7 @@
 
 This package aims to help you displaying a quick colored modal bottom sheet. You can use it to display a few types: loading; title and body; title, body and buttons; customized. The main role of this package is to create a modal bottom sheet with a custom color and the colors of the text and the buttons will be based on the luminance of the color provided (or your current ascent color from your theme, if the color is not provided).
 <p align="center">
-  <img  src="screenshots/0.gif?raw=true">
+  <img  src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/0.gif?raw=true">
 </p>
 
 
@@ -103,7 +103,7 @@ CustomSheet(context).showLoading(loadingMsg: "swipe-down to dismiss",enableDrag:
 
 |  #1 |  #2 |  #3 |
 |---|---|---|
-|<img src="screenshots/1.gif?raw=true">| <img src="screenshots/2.gif?raw=true">| <img src="screenshots/3.gif?raw=true">|
+|<img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/1.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/2.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/3.gif?raw=true">|
 
 #### Title and body
 ```dart
@@ -155,7 +155,7 @@ CustomSheet(context,sheetColor: Colors.black,secondColor: Colors.white,textColor
 
 |  #4 |  #5 |  #6 |  #7 |
 |---|---|---|---|
-|<img src="screenshots/4.gif?raw=true">| <img src="screenshots/5.gif?raw=true">| <img src="screenshots/6.gif?raw=true">| <img src="screenshots/7.gif?raw=true">|
+|<img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/4.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/5.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/6.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/7.gif?raw=true">|
 
 #### Title, body and buttons
 ```dart
@@ -237,7 +237,7 @@ CustomSheet(context,sheetColor: Colors.black).showTitleBodyButtons(
 ```
 |  #8 |  #9 |  #10 |
 |---|---|---|
-|<img src="screenshots/8.gif?raw=true">| <img src="screenshots/9.gif?raw=true">| <img src="screenshots/10.gif?raw=true">|
+|<img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/8.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/9.gif?raw=true">| <img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/10.gif?raw=true">|
 
 #### Custom
 ```dart
@@ -267,5 +267,5 @@ CustomSheet(context).showBS(
 );
 ```
 |  #11 | 
-|---|
-<img src="screenshots/11.gif?raw=true">
+|---|---|
+<img src="https://github.com/madtocc/custom_sheet/blob/master/screenshots/11.gif?raw=true">

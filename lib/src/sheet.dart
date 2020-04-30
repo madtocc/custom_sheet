@@ -27,7 +27,8 @@ class CustomSheet {
                 _getSecondColor(sheetColor ?? Theme.of(context).accentColor,
                     p: secondColorPercent));
 
-  static Color _getTxtColor(Color color) => color.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+  static Color _getTxtColor(Color color) =>
+      color.computeLuminance() > 0.5 ? Colors.black : Colors.white;
   static Color _getSecondColor(Color color, {double p}) {
     assert(p >= 0 && p < 0.5);
     HSVColor hsv = HSVColor.fromColor(color);
@@ -35,15 +36,14 @@ class CustomSheet {
     return hsv.withValue(val).toColor();
   }
 
-  Future<bool> dismiss({int milliseconds=300}) async {
+  Future<bool> dismiss({int milliseconds = 300}) async {
     if (_active) {
       _active = false;
-      return Future.delayed(Duration(milliseconds: milliseconds),(){
+      return Future.delayed(Duration(milliseconds: milliseconds), () {
         Navigator.of(context).pop();
         return true;
       });
-    }
-    else
+    } else
       return false;
   }
 
@@ -63,7 +63,7 @@ class CustomSheet {
       bool blockBackButton = false,
       bool enableDrag = true,
       bool bodySecondColorEnabled = false}) {
-    return showTitleBodyButtons<void,void>(
+    return showTitleBodyButtons<void, void>(
         title: title,
         body: body,
         isDismissible: isDismissible,
@@ -72,7 +72,7 @@ class CustomSheet {
         bodySecondColorEnabled: bodySecondColorEnabled);
   }
 
-  Future<T2> showTitleBodyButtons<T1,T2>(
+  Future<T2> showTitleBodyButtons<T1, T2>(
       {String title,
       String body,
       bool isDismissible = true,
@@ -81,7 +81,7 @@ class CustomSheet {
       bool enableDrag = true,
       bool bodySecondColorEnabled = false,
       double buttonHeight}) {
-    return showBS<T1,T2>(
+    return showBS<T1, T2>(
         top: _modalTitle(title, _textColor),
         body: _modalBody(body, _subTextColor,
             bodySecondColorEnabled ? _secondColor : _sheetColor),
@@ -89,17 +89,17 @@ class CustomSheet {
         blockBackButton: blockBackButton,
         options: options,
         enableDrag: enableDrag,
-        buttonHeight: buttonHeight??65);
+        buttonHeight: buttonHeight ?? 65);
   }
 
-  Future<T2> showBS<T1,T2>(
+  Future<T2> showBS<T1, T2>(
       {Widget top,
       Widget body,
       List<T1> options,
       bool isDismissible = true,
       bool blockBackButton = false,
       bool enableDrag = true,
-      double buttonHeight=65}) {
+      double buttonHeight = 65}) {
     _active = true;
     return showModalBottomSheetWithDrag(
       enableDrag: enableDrag,
@@ -123,7 +123,9 @@ class CustomSheet {
                         child: Column(
                             children: options is List<OptionButton>
                                 ? List<OptionButton>.from(options)
-                                    .map((x) => _OptionButton(x.text, x.onTap,_sheetColor, _subTextColor,buttonHeight: buttonHeight))
+                                    .map((x) => _OptionButton(x.text, x.onTap,
+                                        _sheetColor, _subTextColor,
+                                        buttonHeight: buttonHeight))
                                     .toList()
                                 : options.map((widget) => widget).toList()))
               ],
@@ -206,7 +208,7 @@ class _OptionButton extends StatelessWidget {
           splashColor: color,
           onTap: () => onTap(),
           child: SizedBox(
-              height: buttonHeight-1,
+              height: buttonHeight - 1,
               width: double.infinity,
               child: Center(
                 child: Text(

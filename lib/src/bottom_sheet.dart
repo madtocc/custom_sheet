@@ -5,7 +5,6 @@
 // Just added support to disable drag...
 import 'package:flutter/material.dart';
 
-
 const Duration _bottomSheetDuration = Duration(milliseconds: 200);
 
 // MODAL BOTTOM SHEETS
@@ -22,8 +21,8 @@ class _ModalBottomSheetLayout extends SingleChildLayoutDelegate {
       maxWidth: constraints.maxWidth,
       minHeight: 0.0,
       maxHeight: isScrollControlled
-        ? constraints.maxHeight
-        : constraints.maxHeight * 9.0 / 16.0,
+          ? constraints.maxHeight
+          : constraints.maxHeight * 9.0 / 16.0,
     );
   }
 
@@ -47,8 +46,8 @@ class _ModalBottomSheet<T> extends StatefulWidget {
     this.shape,
     this.clipBehavior,
     this.isScrollControlled = false,
-  }) : assert(isScrollControlled != null),
-       super(key: key);
+  })  : assert(isScrollControlled != null),
+        super(key: key);
 
   final _ModalBottomSheetRoute<T> route;
   final bool isScrollControlled;
@@ -78,7 +77,8 @@ class _ModalBottomSheetState<T> extends State<_ModalBottomSheet<T>> {
     assert(debugCheckHasMediaQuery(context));
     assert(debugCheckHasMaterialLocalizations(context));
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations =
+        MaterialLocalizations.of(context);
     final String routeLabel = _getRouteLabel(localizations);
 
     return AnimatedBuilder(
@@ -86,7 +86,9 @@ class _ModalBottomSheetState<T> extends State<_ModalBottomSheet<T>> {
       builder: (BuildContext context, Widget child) {
         // Disable the initial animation when accessible navigation is on so
         // that the semantics are added to the tree at the correct time.
-        final double animationValue = mediaQuery.accessibleNavigation ? 1.0 : widget.route.animation.value;
+        final double animationValue = mediaQuery.accessibleNavigation
+            ? 1.0
+            : widget.route.animation.value;
         return Semantics(
           scopesRoute: true,
           namesRoute: true,
@@ -94,7 +96,8 @@ class _ModalBottomSheetState<T> extends State<_ModalBottomSheet<T>> {
           explicitChildNodes: true,
           child: ClipRect(
             child: CustomSingleChildLayout(
-              delegate: _ModalBottomSheetLayout(animationValue, widget.isScrollControlled),
+              delegate: _ModalBottomSheetLayout(
+                  animationValue, widget.isScrollControlled),
               child: BottomSheet(
                 animationController: widget.route._animationController,
                 enableDrag: widget.route.enableDrag,
@@ -130,9 +133,9 @@ class _ModalBottomSheetRoute<T> extends PopupRoute<T> {
     this.enableDrag = true,
     @required this.isScrollControlled,
     RouteSettings settings,
-  }) : assert(isScrollControlled != null),
-       assert(isDismissible != null),
-       super(settings: settings);
+  })  : assert(isScrollControlled != null),
+        assert(isDismissible != null),
+        super(settings: settings);
 
   final WidgetBuilder builder;
   final ThemeData theme;
@@ -158,17 +161,19 @@ class _ModalBottomSheetRoute<T> extends PopupRoute<T> {
 
   AnimationController _animationController;
 
-
   @override
   AnimationController createAnimationController() {
     assert(_animationController == null);
-    _animationController = BottomSheet.createAnimationController(navigator.overlay);
+    _animationController =
+        BottomSheet.createAnimationController(navigator.overlay);
     return _animationController;
   }
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-    final BottomSheetThemeData sheetTheme = theme?.bottomSheetTheme ?? Theme.of(context).bottomSheetTheme;
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+    final BottomSheetThemeData sheetTheme =
+        theme?.bottomSheetTheme ?? Theme.of(context).bottomSheetTheme;
     // By definition, the bottom sheet is aligned to the bottom of the page
     // and isn't exposed to the top padding of the MediaQuery.
     Widget bottomSheet = MediaQuery.removePadding(
@@ -176,15 +181,17 @@ class _ModalBottomSheetRoute<T> extends PopupRoute<T> {
       removeTop: true,
       child: _ModalBottomSheet<T>(
         route: this,
-        backgroundColor: backgroundColor ?? sheetTheme?.modalBackgroundColor ?? sheetTheme?.backgroundColor,
-        elevation: elevation ?? sheetTheme?.modalElevation ?? sheetTheme?.elevation,
+        backgroundColor: backgroundColor ??
+            sheetTheme?.modalBackgroundColor ??
+            sheetTheme?.backgroundColor,
+        elevation:
+            elevation ?? sheetTheme?.modalElevation ?? sheetTheme?.elevation,
         shape: shape,
         clipBehavior: clipBehavior,
         isScrollControlled: isScrollControlled,
       ),
     );
-    if (theme != null)
-      bottomSheet = Theme(data: theme, child: bottomSheet);
+    if (theme != null) bottomSheet = Theme(data: theme, child: bottomSheet);
     return bottomSheet;
   }
 }
@@ -255,16 +262,17 @@ Future<T> showModalBottomSheetWithDrag<T>({
   assert(debugCheckHasMediaQuery(context));
   assert(debugCheckHasMaterialLocalizations(context));
 
-  return Navigator.of(context, rootNavigator: useRootNavigator).push(_ModalBottomSheetRoute<T>(
-    builder: builder,
-    theme: Theme.of(context, shadowThemeOnly: true),
-    isScrollControlled: isScrollControlled,
-    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-    backgroundColor: backgroundColor,
-    elevation: elevation,
-    shape: shape,
-    clipBehavior: clipBehavior,
-    isDismissible: isDismissible,
-    enableDrag: enableDrag
-  ));
+  return Navigator.of(context, rootNavigator: useRootNavigator).push(
+      _ModalBottomSheetRoute<T>(
+          builder: builder,
+          theme: Theme.of(context, shadowThemeOnly: true),
+          isScrollControlled: isScrollControlled,
+          barrierLabel:
+              MaterialLocalizations.of(context).modalBarrierDismissLabel,
+          backgroundColor: backgroundColor,
+          elevation: elevation,
+          shape: shape,
+          clipBehavior: clipBehavior,
+          isDismissible: isDismissible,
+          enableDrag: enableDrag));
 }
