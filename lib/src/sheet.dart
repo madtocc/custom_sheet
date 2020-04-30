@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'bottom_sheet.dart';
 
 class CustomSheet {
   final BuildContext context;
@@ -101,7 +100,7 @@ class CustomSheet {
       bool enableDrag = true,
       double buttonHeight = 65}) {
     _active = true;
-    return showModalBottomSheetWithDrag(
+    return showModalBottomSheet(
       enableDrag: enableDrag,
       context: context,
       isDismissible: isDismissible,
