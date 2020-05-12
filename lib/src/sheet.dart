@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'bottom_sheet.dart';
 
 class CustomSheet {
   final BuildContext context;
@@ -101,7 +100,7 @@ class CustomSheet {
       bool enableDrag = true,
       double buttonHeight = 65}) {
     _active = true;
-    return showModalBottomSheetWithDrag(
+    return showModalBottomSheet(
       enableDrag: enableDrag,
       context: context,
       isDismissible: isDismissible,
@@ -123,8 +122,8 @@ class CustomSheet {
                         child: Column(
                             children: options is List<OptionButton>
                                 ? List<OptionButton>.from(options)
-                                    .map((x) => _OptionButton(x.text, x.onTap,
-                                        _sheetColor, _subTextColor,
+                                    .map((opt) => _OptionButton(
+                                        opt, _sheetColor, _subTextColor,
                                         buttonHeight: buttonHeight))
                                     .toList()
                                 : options.map((widget) => widget).toList()))
@@ -191,13 +190,12 @@ class OptionButton {
 }
 
 class _OptionButton extends StatelessWidget {
-  final VoidCallback onTap;
-  final String text;
-  final Color textColor;
+  final OptionButton optionButton;
   final Color color;
+  final Color textColor;
   final double buttonHeight;
 
-  _OptionButton(this.text, this.onTap, this.color, this.textColor,
+  _OptionButton(this.optionButton, this.color, this.textColor,
       {this.buttonHeight});
   @override
   Widget build(BuildContext context) {
@@ -206,13 +204,13 @@ class _OptionButton extends StatelessWidget {
       child: InkWell(
           highlightColor: Colors.transparent,
           splashColor: color,
-          onTap: () => onTap(),
+          onTap: optionButton.onTap,
           child: SizedBox(
               height: buttonHeight - 1,
               width: double.infinity,
               child: Center(
                 child: Text(
-                  this.text,
+                  this.optionButton.text,
                   style: TextStyle(color: textColor),
                   textAlign: TextAlign.center,
                 ),

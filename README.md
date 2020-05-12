@@ -13,9 +13,18 @@ This package aims to help you displaying a quick colored modal bottom sheet. You
 
 Add this to your package's pubspec.yaml file:
 
+Flutter version >=1.17 (current stable)
+
 ```
 dependencies:
   custom_sheet:
+```
+
+Flutter version <1.17
+
+```
+dependencies:
+  custom_sheet:0.1.1+3
 ```
 
 
