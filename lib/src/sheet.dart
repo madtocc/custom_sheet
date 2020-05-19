@@ -1,37 +1,61 @@
 import 'package:flutter/material.dart';
 
 class CustomSheet {
-  final BuildContext context;
-  final Color _sheetColor;
-  final Color _secondColor;
-  final Color _textColor;
-  final Color _subTextColor;
-
+  BuildContext _context;
+  Color _sheetColor;
+  Color _secondColor;
+  Color _textColor;
+  Color _subTextColor;
+  double _secondColorPercent;
   bool _active = false;
 
-  CustomSheet(this.context,
-      {Color sheetColor,
-      Color secondColor,
-      Color textColor,
-      Color subTextColor,
-      double secondColorPercent = 0.1})
-      : this._sheetColor = sheetColor ?? Theme.of(context).accentColor,
+  CustomSheet(
+    {BuildContext context,
+    Color sheetColor,
+    Color secondColor,
+    Color textColor,
+    Color subTextColor,
+    double secondColorPercent}){
+      if(context==null){
+        this._sheetColor = sheetColor;
+        this._secondColor = secondColor;
+        this._textColor = textColor;
+        this._subTextColor = subTextColor;
+        this._secondColorPercent = secondColorPercent??0.1;
+      }
+      else{
+        this._context = context;
+        this._secondColorPercent = secondColorPercent??0.1;
+        this._sheetColor = sheetColor ?? Theme.of(context).accentColor;
         this._secondColor = secondColor ??
-            _getSecondColor(sheetColor ?? Theme.of(context).accentColor,
-                p: secondColorPercent),
+            _getSecondColor(sheetColor);
         this._textColor = textColor ??
-            _getTxtColor(sheetColor ?? Theme.of(context).accentColor),
+            _getTxtColor(sheetColor);
         this._subTextColor = subTextColor ??
-            _getTxtColor(secondColor ??
-                _getSecondColor(sheetColor ?? Theme.of(context).accentColor,
-                    p: secondColorPercent));
+            _getTxtColor(secondColor);
+      }
+    }
 
-  static Color _getTxtColor(Color color) =>
+    set ctx(BuildContext context){
+      print("SETTING CONTEXT...");
+      this._context = context;
+      this._sheetColor ??=Theme.of(context).accentColor;
+      this._secondColor ??= _getSecondColor(_sheetColor);
+      this._textColor ??= _getTxtColor(_sheetColor);
+      this._subTextColor ??= _getTxtColor(_secondColor);
+    }
+    set sheetColor(Color color) => _sheetColor = color;
+    set secondColor(Color color) => _secondColor = color;
+    set textColor(Color color) => _textColor = color;
+    set subTextColor(Color color) => _subTextColor = color;
+    
+
+  Color _getTxtColor(Color color) =>
       color.computeLuminance() > 0.5 ? Colors.black : Colors.white;
-  static Color _getSecondColor(Color color, {double p}) {
-    assert(p >= 0 && p < 0.5);
+  Color _getSecondColor(Color color) {
+    assert(_secondColorPercent >= 0 && _secondColorPercent < 0.5);
     HSVColor hsv = HSVColor.fromColor(color);
-    double val = hsv.value > 0.5 ? hsv.value - p : hsv.value + p;
+    double val = hsv.value > 0.5 ? hsv.value - _secondColorPercent : hsv.value + _secondColorPercent;
     return hsv.withValue(val).toColor();
   }
 
@@ -39,7 +63,7 @@ class CustomSheet {
     if (_active) {
       _active = false;
       return Future.delayed(Duration(milliseconds: milliseconds), () {
-        Navigator.of(context).pop();
+        Navigator.of(_context).pop();
         return true;
       });
     } else
@@ -47,8 +71,9 @@ class CustomSheet {
   }
 
   void showLoading(
-      {String loadingMsg, bool isDismissible, bool block, bool enableDrag}) {
+      {BuildContext context,String loadingMsg, bool isDismissible, bool block, bool enableDrag}) {
     showBS(
+        context: context,
         body: _loading(loadingMsg ?? "Loading ...", _textColor),
         isDismissible: isDismissible ?? false,
         enableDrag: enableDrag ?? false,
@@ -56,13 +81,15 @@ class CustomSheet {
   }
 
   Future<void> showTitleBody(
-      {String title,
+      {BuildContext context,
+      String title,
       String body,
       bool isDismissible = true,
       bool blockBackButton = false,
       bool enableDrag = true,
       bool bodySecondColorEnabled = false}) {
     return showTitleBodyButtons<void, void>(
+        context: context,
         title: title,
         body: body,
         isDismissible: isDismissible,
@@ -72,7 +99,8 @@ class CustomSheet {
   }
 
   Future<T2> showTitleBodyButtons<T1, T2>(
-      {String title,
+      {BuildContext context,
+      String title,
       String body,
       bool isDismissible = true,
       bool blockBackButton = false,
@@ -81,6 +109,7 @@ class CustomSheet {
       bool bodySecondColorEnabled = false,
       double buttonHeight}) {
     return showBS<T1, T2>(
+        context: context,
         top: _modalTitle(title, _textColor),
         body: _modalBody(body, _subTextColor,
             bodySecondColorEnabled ? _secondColor : _sheetColor),
@@ -92,17 +121,23 @@ class CustomSheet {
   }
 
   Future<T2> showBS<T1, T2>(
-      {Widget top,
+      {BuildContext context,
+      Widget top,
       Widget body,
       List<T1> options,
       bool isDismissible = true,
       bool blockBackButton = false,
       bool enableDrag = true,
       double buttonHeight = 65}) {
+        print("HI!!! this context is ${this._context}");
+        if(context != null){
+          print("CAIU NO IUF");
+          ctx=context;
+        }
     _active = true;
     return showModalBottomSheet(
       enableDrag: enableDrag,
-      context: context,
+      context: _context,
       isDismissible: isDismissible,
       isScrollControlled: true,
       builder: (BuildContext context) {

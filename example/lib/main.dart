@@ -25,7 +25,7 @@ class ExampleHome extends StatelessWidget {
       bool draggable = false,
       bool block = true}) async {
     var customSheet =
-        CustomSheet(context, sheetColor: color, textColor: textColor);
+        CustomSheet(context:context, sheetColor: color, textColor: textColor);
     customSheet.showLoading(
         isDismissible: dissmissable,
         loadingMsg: text,
@@ -36,7 +36,7 @@ class ExampleHome extends StatelessWidget {
 
   void _showBottomSheetTitle(BuildContext context,
       {bool showSecondColor = false, Color secondColor}) {
-    CustomSheet(context, secondColor: secondColor)
+    CustomSheet(context:context, secondColor: secondColor)
       ..showTitleBody(
           title: "HI",
           body: "My name is Joe Doe",
@@ -49,7 +49,7 @@ class ExampleHome extends StatelessWidget {
       bool showSecondColor = false,
       Color secondColor,
       double buttonHeight}) {
-    CustomSheet(context, secondColor: secondColor).showTitleBodyButtons(
+    CustomSheet(context:context, secondColor: secondColor).showTitleBodyButtons(
         bodySecondColorEnabled: showSecondColor,
         buttonHeight: buttonHeight,
         title: title,
@@ -126,7 +126,7 @@ class ExampleHome extends StatelessWidget {
                   body: "My name is Joe Doe", secondColor: Colors.black),
               child: Text("Show bottom sheet with body and colored buttons ")),
           FlatButton(
-              onPressed: () => CustomSheet(context).showTitleBodyButtons(
+              onPressed: () => CustomSheet(context:context).showTitleBodyButtons(
                       title: "HEY",
                       body: "YOU",
                       options: <SizedBox>[
@@ -141,7 +141,7 @@ class ExampleHome extends StatelessWidget {
                       ]),
               child: Text("Show bottom sheet with custom buttons ")),
           FlatButton(
-              onPressed: () => CustomSheet(context).showBS(
+              onPressed: () => CustomSheet(context:context).showBS(
                   top: Icon(Icons.ac_unit), body: Text("My name is Joe Doe")),
               child: Text("Show bottom sheet with custom title and body ")),
         ],

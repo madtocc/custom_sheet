@@ -17,7 +17,7 @@ Flutter version >=1.17 (current stable)
 
 ```
 dependencies:
-  custom_sheet:
+  custom_sheet:0.1.1+4
 ```
 
 Flutter version <1.17
