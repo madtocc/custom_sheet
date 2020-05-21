@@ -15,29 +15,29 @@ class MyApp extends StatelessWidget {
 }
 
 class ExampleHome extends StatelessWidget {
-  const ExampleHome({Key key}) : super(key: key);
+  ExampleHome({Key key}) : super(key: key);
+  final CustomSheet _sheet =  CustomSheet();
 
-  void _showLoading(BuildContext context,
-      {String text,
+  void _showLoading(BuildContext context,{
+      String text,
       Color color,
       Color textColor,
       bool dissmissable = false,
       bool draggable = false,
       bool block = true}) async {
-    var customSheet =
-        CustomSheet(context:context, sheetColor: color, textColor: textColor);
-    customSheet.showLoading(
-        isDismissible: dissmissable,
-        loadingMsg: text,
-        enableDrag: draggable,
-        block: block);
-    if (!(dissmissable || draggable)) customSheet.dismiss(milliseconds: 3000);
+    (_sheet..setColors(context:context,sheetColor:color,textColor:textColor)).showLoading(
+      isDismissible: dissmissable,
+      loadingMsg: text,
+      enableDrag: draggable,
+      block: block);
+    if (!(dissmissable || draggable)) _sheet.dismiss(milliseconds: 3000);
   }
 
   void _showBottomSheetTitle(BuildContext context,
       {bool showSecondColor = false, Color secondColor}) {
-    CustomSheet(context:context, secondColor: secondColor)
-      ..showTitleBody(
+    _sheet
+    ..setColors(secondColor:secondColor,context:context)
+    ..showTitleBody(
           title: "HI",
           body: "My name is Joe Doe",
           bodySecondColorEnabled: showSecondColor);
@@ -49,7 +49,9 @@ class ExampleHome extends StatelessWidget {
       bool showSecondColor = false,
       Color secondColor,
       double buttonHeight}) {
-    CustomSheet(context:context, secondColor: secondColor).showTitleBodyButtons(
+    _sheet
+    ..setColors(context:context, secondColor: secondColor)
+    ..showTitleBodyButtons(
         bodySecondColorEnabled: showSecondColor,
         buttonHeight: buttonHeight,
         title: title,
@@ -63,7 +65,6 @@ class ExampleHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
       appBar: AppBar(title: Text("Custom Sheet Example"), centerTitle: true),
       body: ListView(
         children: [
@@ -126,7 +127,9 @@ class ExampleHome extends StatelessWidget {
                   body: "My name is Joe Doe", secondColor: Colors.black),
               child: Text("Show bottom sheet with body and colored buttons ")),
           FlatButton(
-              onPressed: () => CustomSheet(context:context).showTitleBodyButtons(
+              onPressed: () => _sheet
+              ..context=context
+              ..showTitleBodyButtons(
                       title: "HEY",
                       body: "YOU",
                       options: <SizedBox>[
@@ -141,7 +144,8 @@ class ExampleHome extends StatelessWidget {
                       ]),
               child: Text("Show bottom sheet with custom buttons ")),
           FlatButton(
-              onPressed: () => CustomSheet(context:context).showBS(
+              onPressed: () => _sheet.showBS(
+                context: context,
                   top: Icon(Icons.ac_unit), body: Text("My name is Joe Doe")),
               child: Text("Show bottom sheet with custom title and body ")),
         ],

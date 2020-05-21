@@ -35,18 +35,20 @@ Import it:
 import 'package:custom_sheet/custom_sheet.dart';
 ```
 
-To use it create an instance of the CustomSheet class (the context is required) and set the optional parameters (if you want):
+To use it create an instance of the CustomSheet class and set the optional parameters (or you can do it later, if you want). 
+PS: The context here is only needed if you want to use your current ascent theme color and afterwards it will be used to show the bottom sheet, but you can pass the context whenever you want it.
 
 ```dart
-CustomSheet(context,
+CustomSheet({
+    BuildContext context,
     Color sheetColor,
     Color secondColor,
     Color textColor,
     Color subTextColor,
     double secondColorPercent
-);
+});
 ```
-You can set some custom parameters:
+Custom parameters:
 
  Parameter | Description |
 |---|---|
@@ -67,11 +69,103 @@ The default value of these parameters may be different for some methods, for ins
 
 ---
 
+### Colors
+You can set the colors when you instantiate CustomSheet, using its setters or afterwards using the method setColors.
+````dart
+// will use current ascent theme
+CustomSheet(context:context);
+// only the sheet color compute the others
+CustomSheet(
+    context:context,
+    sheetColor:Colors.white
+);
+// the sheet color and the second color compute the text colors
+CustomSheet(
+    context:context,
+    sheetColor:Colors.white,
+    secondColor:Colors.black
+);
+// the sheet color, the second color and the text color, just
+// compute the subtext color
+CustomSheet(
+    context:context,
+    sheetColor:Colors.white,
+    secondColor:Colors.black,
+    textColor:Colors.blue
+);
+// provide all the colors
+CustomSheet(
+    context:context,
+    sheetColor: Colors.white,
+    secondColor: Colors.black,
+    textColor: Colors.blue,
+    subTextColor: Colors.green
+
+);
+````
+The colors can be changed or setted later using the setters:
+````dart
+sheetColor(Color color);
+secondColor(Color color);
+textColor(Color color);
+subTextColor(Color color);
+
+//example
+final sheet = CustomSheet();
+sheet.sheetColor = Colors.white;
+// or set multiple colors
+sheet
+..sheetColor = Colors.white
+..secondColor = Colors.black
+..textColor = Colors.blue
+````
+or using the method setColors:
+````dart
+void setColors({
+    BuildContext context,
+    Color sheetColor, 
+    Color secondColor, 
+    Color textColor, 
+    Color subTextColor});
+//example 
+final sheet = CustomSheet();
+sheet.setColors(
+    context:context,
+    sheetColor : Colors.white,
+    secondColor : Colors.black
+)
+
+````
+
+
+### Context
+ 
+In order to compute the theme ascent color, show a loading, or a title and body or a title, body and buttons the context is needed. You can pass it  in a few different ways. It will depend if you have your context when you instantiate the object CustomSheet or not. The Custom Sheet will keep the context provided so you don't need to pass every single time and if you pass it more than once there's no problem since it will be ignored.
+1) passing the context to your custom sheet: 
+ ````CustomSheet(context:context)````
+2) passing the context to your showLoading(or showTitleBody, etc..):
+   ````CustomSheet.showLoading(context:context)````
+3) passing the context by its setter:
+   ````CustomSheet.context(context)````
+
+
+4) passing the context when setting colors:
+   ````
+   CustomSheet
+   ..setColors(context:context,sheetColor:Colors.white)
+   ..showLoading()
+   ````
+
+
+---
+
 #### Display a Loading
 
 ```dart
 void showLoading({
+    BuildContext context,
     String loadingMsg= "Loading ...", 
+    Color progressColor,
     bool isDismissible=false, 
     bool block=true, 
     bool enableDrag=false
@@ -85,21 +179,32 @@ void showLoading({
 // #1
 // Create a simple loading with your current ascent color (theme)
 // if the loading is not dismissable, has the back bottom blocked and the drag is disabled the only way to dismiss it is using the dismiss function or using Navigator.of(context).pop()
-final cSheet = CustomSheet(context);
+final cSheet = CustomSheet(context:context);
 cSheet.showLoading();
 // do something and then dismiss it...
 cSheet.dismiss(milliseconds:2000);
 // ----------------------------------------------------------------------------
 //#2
 // Create a simple loading with custom text [wait for it], custom text color [yellow] and custom sheet color [red]
-final cSheet2 = CustomSheet(context,sheetColor: Colors.red,textColor: Colors.yellow);
+final cSheet2 = CustomSheet(context:context,sheetColor: Colors.red,textColor: Colors.yellow);
 cSheet2.showLoading(loadingMsg: "Wait for it ...");
 // do something and then dismiss it...
 cSheet2.dismiss(milliseconds:2000);
+//
+// You can also set the context and the colors afterwards if you want:
+final cSheet2 = CustomSheet();
+// ...
+// ...
+cSheet2
+..setColors(context:context,sheetColor:Colors.red)
+..showLoading(loadingMsg: "Wait for it ...");
+
+
+
 // ----------------------------------------------------------------------------
 //#3
 // create a loading style which can only be dismissed by swipping downward. i.e. pressing back button or clickin outside of the bottom sheet won't dismiss it
-CustomSheet(context).showLoading(loadingMsg: "swipe-down to dismiss",enableDrag: true);
+CustomSheet(context:context).showLoading(loadingMsg: "swipe-down to dismiss",enableDrag: true);
 
 ```
 
@@ -115,6 +220,7 @@ CustomSheet(context).showLoading(loadingMsg: "swipe-down to dismiss",enableDrag:
 #### Title and body
 ```dart
 Future<void> showTitleBody({
+    BuildContext context,
     String title,
     String body,
     bool isDismissible = true,
@@ -129,7 +235,7 @@ Future<void> showTitleBody({
 // ----------------------------------------------------------------------------
 // #4
 // Create Title and Body with your current ascent color (theme)
-CustomSheet(context).showTitleBody(
+CustomSheet(context:context).showTitleBody(
     title:"Welcome",
     body:"Lorem ...."
 );
@@ -137,7 +243,7 @@ CustomSheet(context).showTitleBody(
 //#5
 // Create a Title and Body witch custom sheet color [black]
 // the text color will change according to its luminance, so it will be white right now.
-CustomSheet(context,sheetColor: Colors.black).showTitleBody(
+CustomSheet(context:context,sheetColor: Colors.black).showTitleBody(
     title:"Welcome",
     body:"Lorem ...."
 );
@@ -145,7 +251,7 @@ CustomSheet(context,sheetColor: Colors.black).showTitleBody(
 //#6
 // Create a Title and Body witch custom sheet color [black] and custom body color [white]
 // the text color will change according to its luminance, so it will be white for the title and black for the body.
-CustomSheet(context,sheetColor: Colors.black,secondColor: Colors.white).showTitleBody(
+CustomSheet(context:context,sheetColor: Colors.black,secondColor: Colors.white).showTitleBody(
     title:"Welcome",
     body:_"Lorem ....",
     bodySecondColorEnabled: true // the second color is used for the button colors, but we can change the body color setting this parameter to true
@@ -153,7 +259,7 @@ CustomSheet(context,sheetColor: Colors.black,secondColor: Colors.white).showTitl
 // ----------------------------------------------------------------------------
 //#7
 // Create a Title and Body witch custom sheet color [black], title color green, custom body color [white] and body text color red.
-CustomSheet(context,sheetColor: Colors.black,secondColor: Colors.white,textColor: Colors.green,subTextColor: Colors.red).showTitleBody(
+CustomSheet(context:context,sheetColor: Colors.black,secondColor: Colors.white,textColor: Colors.green,subTextColor: Colors.red).showTitleBody(
     title:"Welcome",
     body: "Lorem ...."
     bodySecondColorEnabled: true 
@@ -175,7 +281,8 @@ CustomSheet(context,sheetColor: Colors.black,secondColor: Colors.white,textColor
 
 ```dart
 Future<T2> showTitleBodyButtons<T1,T2>(
-    {String title,
+    {BuildContext context,
+    String title,
     String body,
     List<T1> options,
     double buttonHeight,
@@ -192,7 +299,7 @@ Future<T2> showTitleBodyButtons<T1,T2>(
 // #8
 // Create Title and Buttons with your current ascent color (theme) and show the option selected on a snackbar
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-CustomSheet(context).showTitleBodyButtons(
+CustomSheet(context:context).showTitleBodyButtons(
     title:"Welcome",
     options: <OptionButton>[
     OptionButton("option 1",(){}),
@@ -206,7 +313,7 @@ CustomSheet(context).showTitleBodyButtons(
 // #9
 // Create Title and Buttons with your current ascent color (theme), button color as blue grey, 150px button height and show the option selected on a snackbar
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-CustomSheet(context,secondColor: Colors.blueGrey).showTitleBodyButtons(
+CustomSheet(context:context,secondColor: Colors.blueGrey).showTitleBodyButtons(
     title:"Welcome",
     options: <OptionButton>[
     OptionButton("option 1",(){}),
@@ -240,7 +347,7 @@ class MyCustomButton extends StatelessWidget{
   }
 }
 // thenn invoke the modal bottom sheet using your class MyCustomButton or whatever widget you want (Text,RaisedButton, etc)
-CustomSheet(context,sheetColor: Colors.black).showTitleBodyButtons(
+CustomSheet(context:context,sheetColor: Colors.black).showTitleBodyButtons(
       title:"Welcome",
       options: <MyCustomButton>[
         MyCustomButton(Colors.red,"option 1",(){}),
@@ -266,6 +373,7 @@ CustomSheet(context,sheetColor: Colors.black).showTitleBodyButtons(
 
 ```dart
 Future<T2> showBS<T1,T2>({
+    BuildContext context,
     Widget top,
     Widget body,
     List<T1> options,
@@ -281,7 +389,7 @@ You can also customize the whole bottom sheet as you wish...
 
 
 ```dart
-CustomSheet(context).showBS(
+CustomSheet(context:context).showBS(
     top: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Icon(Icons.ac_unit)),
